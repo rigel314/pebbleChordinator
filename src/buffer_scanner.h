@@ -10,10 +10,10 @@
 #define test_BufferScanner_h
 
 typedef struct {
-    char delimiter; // char that seperates the string. ',' in "one,two,three"
-    char *buffer; // string to scan
-    int length; // length of string to scan
-    int position; // current position to scan from (starts at 0)
+	char delimiter; // char that seperates the string. ',' in "one,two,three"
+	char *buffer; // string to scan
+	int length; // length of string to scan
+	int position; // current position to scan from (starts at 0)
 } BufferScanner;
 
 // sets up buffer scanner

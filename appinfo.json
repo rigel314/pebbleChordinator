@@ -1,0 +1,35 @@
+{
+	"uuid": "63B8755C-3E16-45F6-B463-5E0B68AE561A",
+	"shortName": "Chordinator",
+	"longName": "Chordinator",
+	"companyName": "Computing Eureka",
+	"versionCode": 2,
+	"versionLabel": "2.0.0",
+	"watchapp": {
+		"watchface": false
+	},
+	"appKeys": {
+		"dummy": 0
+	},
+	"resources": {
+		"media":
+		[
+			{
+				"type": "raw",
+				"name": "CHORDS",
+				"file":"raw/chords"
+			},
+			{
+				"type":"png",
+				"name":"BACKGROUND",
+				"file":"images/background.png"
+			},
+			{
+				"type": "png",
+				"name": "SYSINFO_MENU_ICON",
+				"file": "images/icon.png",
+				"menuIcon": true
+			}
+		]
+	}
+}
