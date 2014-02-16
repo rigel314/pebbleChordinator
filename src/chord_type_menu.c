@@ -44,6 +44,7 @@ void setup_chord_type_menu_sections()
 		// chord_type_menu_items[i] = malloc(sizeof(SimpleMenuItem));
 
 		len = snprintf(title, sizeof(title), "%s %s", root_note, types[i]);
+		len++;
 		// APP_LOG(APP_LOG_LEVEL_INFO, "malloc()ing %d bytes", len);
 		chord_type_menu_items[i].title = malloc(len);
 		strncpy((char*)chord_type_menu_items[i].title, title, len);
