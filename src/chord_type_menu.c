@@ -1,7 +1,7 @@
+#include <pebble.h>
+
 #include "chord_type_menu.h"
 #include "chord.h"
-
-#include <pebble.h>
 
 Window* chord_type_window;
 SimpleMenuLayer* chord_type_menu_layer;
@@ -21,7 +21,7 @@ SimpleMenuItem* chord_type_menu_items;
 static char *root_note;
 
 // Types of supported chords. Used to build menu titles
-static char *types[3] = {"Major", "Minor", "Major 7"};
+static char *types[3] = {"Major", "Minor", "7"};
 
 // function prototypes
 void setup_chord_type_window();

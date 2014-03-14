@@ -4,7 +4,7 @@
 	"longName": "Chordinator",
 	"companyName": "Computing Eureka",
 	"versionCode": 2,
-	"versionLabel": "2.0.1",
+	"versionLabel": "2.1.0",
 	"watchapp": {
 		"watchface": false
 	},
@@ -16,13 +16,23 @@
 		[
 			{
 				"type": "raw",
-				"name": "CHORDS",
-				"file":"raw/chords"
+				"name": "GUITAR_CHORDS",
+				"file":"raw/gchords"
+			},
+			{
+				"type": "raw",
+				"name": "UKULELE_CHORDS",
+				"file":"raw/uchords"
 			},
 			{
 				"type":"png",
-				"name":"BACKGROUND",
-				"file":"images/background.png"
+				"name":"GUITAR_BACKGROUND",
+				"file":"images/gbackground.png"
+			},
+			{
+				"type":"png",
+				"name":"UKULELE_BACKGROUND",
+				"file":"images/ubackground.png"
 			},
 			{
 				"type": "png",

@@ -1,6 +1,7 @@
-#include "chord.h"
-
 #include <pebble.h>
+
+#include "chord.h"
+#include "instrument_menu.h"
 #include "buffer_scanner.h"
 
 Window* chord_window;
@@ -40,24 +41,53 @@ void chord_fingering_update_proc(Layer *layer, GContext *context)
 	chord_fingering[6] = '\0';
 	APP_LOG(APP_LOG_LEVEL_INFO, "fingering: %s", chord_fingering);
 
-	// loop through each char in chord_fingering
-	for (int i = 0; i < 6; i++)
-	{    
-		char number = chord_fingering[i];
+	switch(instrument)
+	{
+		case 0:
+			// loop through each char in chord_fingering
+			for (int i = 0; i < 6; i++)
+			{    
+				char number = chord_fingering[i];
 
-		if (number != 'x' && number != '0') // current char is a number, draw a circle to indicate fingering
-		{    
-			graphics_fill_circle(context, (GPoint){11 + (i * 24), 20 + (int)(number - '0') * 24}, 10);
-		}
-		else if (number == 'x') // char is an 'x', draw X on fretboard to indicate blocked string
-		{   
-			graphics_draw_line(context, (GPoint){11 + (i * 24) - 6, 30}, (GPoint){11 + (i * 24) + 6, 18});
-			graphics_draw_line(context, (GPoint){11 + (i * 24) - 6, 18}, (GPoint){11 + (i * 24) + 6, 30});
-		}
-		else if (number == '0') // char is a '0', draw O on fretboard to indicate open string
-		{
-			graphics_draw_circle(context, (GPoint){11 + (i * 24), 24}, 6);
-		}
+				if (number != 'x' && number != '0') // current char is a number, draw a circle to indicate fingering
+				{    
+					graphics_fill_circle(context, (GPoint){11 + (i * 24), 20 + (int)(number - '0') * 24}, 10);
+				}
+				else if (number == 'x') // char is an 'x', draw X on fretboard to indicate blocked string
+				{   
+					graphics_draw_line(context, (GPoint){11 + (i * 24) - 6, 30}, (GPoint){11 + (i * 24) + 6, 18});
+					graphics_draw_line(context, (GPoint){11 + (i * 24) - 6, 18}, (GPoint){11 + (i * 24) + 6, 30});
+				}
+				else if (number == '0') // char is a '0', draw O on fretboard to indicate open string
+				{
+					graphics_draw_circle(context, (GPoint){11 + (i * 24), 24}, 6);
+				}
+			}
+			break;
+
+		case 1:
+			for (int i = 0; i < 4; i++)
+			{    
+				char number = chord_fingering[i];
+
+				if (number != 'x' && number != '0') // current char is a number, draw a circle to indicate fingering
+				{    
+					graphics_fill_circle(context, (GPoint){(11+24) + (i * 24), 20 + (int)(number - '0') * 24}, 10);
+				}
+				else if (number == 'x') // char is an 'x', draw X on fretboard to indicate blocked string
+				{   
+					graphics_draw_line(context, (GPoint){(11+24) + (i * 24) - 6, 30}, (GPoint){11 + (i * 24) + 6, 18});
+					graphics_draw_line(context, (GPoint){(11+24) + (i * 24) - 6, 18}, (GPoint){11 + (i * 24) + 6, 30});
+				}
+				else if (number == '0') // char is a '0', draw O on fretboard to indicate open string
+				{
+					graphics_draw_circle(context, (GPoint){(11+24) + (i * 24), 24}, 6);
+				}
+			}
+			break;
+
+		case 2:
+			break;
 	}
 }
 
@@ -66,7 +96,19 @@ void chord_window_load(Window *window)
 {
 	Layer *root_layer = window_get_root_layer(window);
 
-	fretboard = gbitmap_create_with_resource(RESOURCE_ID_BACKGROUND);
+	switch(instrument)
+	{
+		case 0:
+			fretboard = gbitmap_create_with_resource(RESOURCE_ID_GUITAR_BACKGROUND);
+			break;
+
+		case 1:
+			fretboard = gbitmap_create_with_resource(RESOURCE_ID_UKULELE_BACKGROUND);
+			break;
+
+		case 2:
+			break;
+	}
 	// add fretboard at lowest layer
 	bl = bitmap_layer_create(layer_get_bounds(root_layer));
 	// bmp_init_container(RESOURCE_ID_BACKGROUND, &background_container); /* deinit on window unload */
@@ -113,11 +155,32 @@ void display_chord(const char *chord)
 void get_chord_fingering(const char *chord)
 {
 	BufferScanner buffer_scanner;
-	ResHandle res = resource_get_handle(RESOURCE_ID_CHORDS);
-	uint8_t* buffer = malloc(resource_size(res));
+	ResHandle res;
+	uint8_t* buffer;
 	// string to buffer to as we read file
 	char string[32];
 	
+	switch(instrument)
+	{
+		case 0:
+			res = resource_get_handle(RESOURCE_ID_GUITAR_CHORDS);
+			break;
+
+		case 1:
+			res = resource_get_handle(RESOURCE_ID_UKULELE_CHORDS);
+			break;
+
+		case 2:
+			res = NULL;
+			break;
+
+		default:
+			res = NULL;
+			break;
+	}
+
+	buffer = malloc(resource_size(res));
+
 	// load resource into a buffer
 	resource_load(res, buffer, resource_size(res));
 
