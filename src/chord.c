@@ -10,7 +10,7 @@ Window* chord_window;
 static char chord_name[64];
 
 // store the fingering of the chord read from resources/src/raw/chords 
-static char chord_fingering[7];
+static char chord_fingering[14];
 
 // displays name of chord
 TextLayer* text_layer;
@@ -38,12 +38,13 @@ void chord_fingering_update_proc(Layer *layer, GContext *context)
 	graphics_context_set_stroke_color(context, GColorBlack);
 	graphics_context_set_fill_color(context, GColorBlack);
 	
-	chord_fingering[6] = '\0';
+	// chord_fingering[6] = '\0';
 	APP_LOG(APP_LOG_LEVEL_INFO, "fingering: %s", chord_fingering);
 
 	switch(instrument)
 	{
 		case 0:
+			graphics_context_set_fill_color(context, GColorBlack);
 			// loop through each char in chord_fingering
 			for (int i = 0; i < 6; i++)
 			{    
@@ -66,6 +67,7 @@ void chord_fingering_update_proc(Layer *layer, GContext *context)
 			break;
 
 		case 1:
+			graphics_context_set_fill_color(context, GColorBlack);
 			for (int i = 0; i < 4; i++)
 			{    
 				char number = chord_fingering[i];
@@ -87,6 +89,21 @@ void chord_fingering_update_proc(Layer *layer, GContext *context)
 			break;
 
 		case 2:
+			for (int i = 0; i < 13; i++)
+			{    
+				char number = chord_fingering[i];
+
+				if(number == '1' && !isBlackKey(i))
+				{
+					graphics_context_set_fill_color(context, GColorBlack);
+					graphics_fill_circle(context, (GPoint){12 + 17*whiteKeys(i), 117}, 6);
+				}
+				else if(number == '1' && isBlackKey(i))
+				{
+					graphics_context_set_fill_color(context, GColorWhite);
+					graphics_fill_circle(context, (GPoint){blackKeyIndex(i), 80}, 4);
+				}
+			}
 			break;
 	}
 }
@@ -107,6 +124,7 @@ void chord_window_load(Window *window)
 			break;
 
 		case 2:
+			fretboard = gbitmap_create_with_resource(RESOURCE_ID_PIANO_BACKGROUND);
 			break;
 	}
 	// add fretboard at lowest layer
@@ -171,7 +189,7 @@ void get_chord_fingering(const char *chord)
 			break;
 
 		case 2:
-			res = NULL;
+			res = resource_get_handle(RESOURCE_ID_PIANO_CHORDS);
 			break;
 
 		default:
@@ -194,12 +212,57 @@ void get_chord_fingering(const char *chord)
  
 		if (strncmp(string, chord, 10) == 0)
 		{
+			int x = instrument;
 			// match was found- grab the next line (which will be the fingering) and put it in chord_fingering
-			buffer_scanner_scan_next_string(&buffer_scanner, chord_fingering, 6);
+			buffer_scanner_scan_next_string(&buffer_scanner, chord_fingering, 7 - (15*x)/2 + (11*x*x)/2 ); // the interpolation function maps 0->6, 1->4, and 2->13
 			break;
 		}
 	}
 	free(buffer);
+}
+
+int whiteKeys(int index)
+{
+	if(index <= 4)
+		return index / 2;
+	if(index <= 11)
+		return (index / 2) + 1;
+	return 7;
+}
+int blackKeyIndex(int index)
+{
+	switch(index)
+	{
+		case 1:
+			return 21;
+			break;
+		case 3:
+			return 38;
+			break;
+		case 6:
+			return 72;
+			break;
+		case 8:
+			return 89;
+			break;
+		case 10:
+			return 106;
+			break;
+	}
+	return 0;
+}
+bool isBlackKey(int index)
+{
+	switch(index)
+	{
+		case  1:
+		case  3:
+		case  6:
+		case  8:
+		case 10:
+			return true;
+	}
+	return false;
 }
 
 // init window and setup handlers

@@ -30,7 +30,7 @@ void buffer_scanner_scan_next_string(BufferScanner *buffer_scanner, char *string
 	
 	while ( !finished && /* when a match is found, finished == 1 */
 			buffer_scanner->position < buffer_scanner->length && /* make sure we don't scan past buffer */
-			string_position < max_string_size /* make sure we don't overflow passed in string */)
+			string_position < max_string_size-1 /* make sure we don't overflow passed in string */)
 	{   
 		// capture current char
 		char current_char = buffer[buffer_scanner->position];
@@ -44,6 +44,7 @@ void buffer_scanner_scan_next_string(BufferScanner *buffer_scanner, char *string
 		{
 			// we hit the delimiter- string should now contain the next item
 			finished = 1;
+			string[string_position] = 0;
 		}
 
 		// move positions up one in our buffer position and string position for next pass

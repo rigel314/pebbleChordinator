@@ -25,6 +25,11 @@
 				"file":"raw/uchords"
 			},
 			{
+				"type": "raw",
+				"name": "PIANO_CHORDS",
+				"file":"raw/pchords"
+			},
+			{
 				"type":"png",
 				"name":"GUITAR_BACKGROUND",
 				"file":"images/gbackground.png"
@@ -33,6 +38,11 @@
 				"type":"png",
 				"name":"UKULELE_BACKGROUND",
 				"file":"images/ubackground.png"
+			},
+			{
+				"type":"png",
+				"name":"PIANO_BACKGROUND",
+				"file":"images/pbackground.png"
 			},
 			{
 				"type": "png",
