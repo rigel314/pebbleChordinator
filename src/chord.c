@@ -7,7 +7,7 @@
 Window* chord_window;
 
 // static Window chord_window;
-static char chord_name[64];
+char chord_name[64];
 
 // store the fingering of the chord read from resources/src/raw/chords 
 static char chord_fingering[14];
@@ -265,6 +265,113 @@ bool isBlackKey(int index)
 	return false;
 }
 
+void chord_increment()
+{
+	int offset = (chord_name[1] == ' ') ? 2 : 3;
+
+	// APP_LOG(APP_LOG_LEVEL_INFO, "chord_name+offset: %s", chord_name+offset);
+
+	if(!strncmp(chord_name+offset, "Major", 5))
+	{
+		strcpy(chord_name+offset, "Minor");
+	}
+	else if(!strncmp(chord_name+offset, "Minor", 5))
+	{
+		strcpy(chord_name+offset, "7");
+	}
+	else
+	{
+		strcpy(chord_name+offset, "Major");
+
+		if(chord_name[1] == ' ')
+		{
+			memmove(chord_name+offset, chord_name+1, 7);
+			chord_name[1] = '#';
+		}
+		else
+		{
+			chord_name[0]++;
+			if(chord_name[0] > 'G')
+				chord_name[0] = 'A';
+
+			memmove(chord_name+1, chord_name+offset-1, 7);
+		}
+	}
+}
+void chord_decrement()
+{
+	int offset = (chord_name[1] == ' ') ? 2 : 3;
+
+	if(!strncmp(chord_name+offset, "7", 1))
+	{
+		strcpy(chord_name+offset, "Minor");
+	}
+	else if(!strncmp(chord_name+offset, "Minor", 5))
+	{
+		strcpy(chord_name+offset, "Major");
+	}
+	else
+	{
+		strcpy(chord_name+offset, "7");
+
+		if(chord_name[1] == ' ')
+		{
+			chord_name[0]--;
+			if(chord_name[0] < 'A')
+				chord_name[0] = 'G';
+
+			memmove(chord_name+offset, chord_name+1, 3);
+			chord_name[1] = '#';
+		}
+		else
+		{
+			memmove(chord_name+1, chord_name+offset-1, 3);
+		}
+	}
+}
+
+void swapWindow()
+{
+	window_stack_pop(true);
+	display_chord(chord_name);
+}
+
+void chord_up(ClickRecognizerRef recognizer, void* context)
+{
+	// APP_LOG(APP_LOG_LEVEL_INFO, "chord_name: %s", chord_name);
+	chord_decrement();
+	// APP_LOG(APP_LOG_LEVEL_INFO, "chord_name: %s", chord_name);
+	swapWindow();
+}
+void chord_down(ClickRecognizerRef recognizer, void* context)
+{
+	// APP_LOG(APP_LOG_LEVEL_INFO, "chord_name: %s", chord_name);
+	chord_increment();
+	// APP_LOG(APP_LOG_LEVEL_INFO, "chord_name: %s", chord_name);
+	swapWindow();
+}
+void chord_longup(ClickRecognizerRef recognizer, void* context)
+{
+	chord_decrement();
+	chord_decrement();
+	chord_decrement();
+	swapWindow();
+}
+void chord_longdown(ClickRecognizerRef recognizer, void* context)
+{
+	chord_increment();
+	chord_increment();
+	chord_increment();
+	swapWindow();
+}
+void chord_click_config_provider(void* context)
+{
+	window_single_click_subscribe(BUTTON_ID_UP, chord_up);
+	window_single_click_subscribe(BUTTON_ID_DOWN, chord_down);
+	window_long_click_subscribe(BUTTON_ID_UP, 0, chord_longup, NULL);
+	window_long_click_subscribe(BUTTON_ID_DOWN, 0, chord_longdown, NULL);
+}
+
 // init window and setup handlers
 void setup_chord_window()
 {
@@ -274,4 +381,5 @@ void setup_chord_window()
 				.load = chord_window_load,
 				.unload = chord_window_unload
 			});
+	window_set_click_config_provider(chord_window, (ClickConfigProvider) chord_click_config_provider);
 }
