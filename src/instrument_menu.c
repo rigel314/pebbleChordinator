@@ -35,6 +35,8 @@ void setup_instrument_menu_sections()
 		// { .title = instruments[i], .callback = instrument_menu_item_selected_callback }
 		instrument_menu_items[i].title = instruments[i];
 		instrument_menu_items[i].callback = instrument_menu_item_selected_callback;
+		instrument_menu_items[i].subtitle = NULL;
+		instrument_menu_items[i].icon = NULL;
 	}
 
 	// setup menu section with items created above

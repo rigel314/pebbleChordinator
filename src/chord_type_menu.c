@@ -50,6 +50,8 @@ void setup_chord_type_menu_sections()
 		strncpy((char*)chord_type_menu_items[i].title, title, len);
 		
 		chord_type_menu_items[i].callback = chord_type_menu_item_selected_callback;
+		chord_type_menu_items[i].subtitle = NULL;
+		chord_type_menu_items[i].icon = NULL;
 	}
 
 	// make our section with the items generated above
@@ -58,6 +60,7 @@ void setup_chord_type_menu_sections()
 	chord_type_menu_sections->title = "Select Type";
 	chord_type_menu_sections->items = chord_type_menu_items;
 	chord_type_menu_sections->num_items = (sizeof(types) / sizeof(types[0]));
+
 	//(SimpleMenuSection){ .title = "Select Type", .items = chord_type_menu_items, .num_items = sizeof(chord_type_menu_items) / sizeof(chord_type_menu_items[0]) };
 }
 

@@ -39,6 +39,8 @@ void setup_menu_sections()
 		// { .title = notes[i], .callback = note_menu_item_selected_callback }
 		root_note_menu_items[i].title = notes[i];
 		root_note_menu_items[i].callback = note_menu_item_selected_callback;
+		root_note_menu_items[i].subtitle = NULL;
+		root_note_menu_items[i].icon = NULL;
 	}
 
 	// setup menu section with items created above

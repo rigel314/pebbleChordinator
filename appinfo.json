@@ -1,55 +1,59 @@
 {
-	"uuid": "63B8755C-3E16-45F6-B463-5E0B68AE561A",
-	"shortName": "Chordinator",
-	"longName": "Chordinator",
-	"companyName": "Computing Eureka",
-	"versionCode": 2,
-	"versionLabel": "2.1.1",
-	"watchapp": {
-		"watchface": false
-	},
-	"appKeys": {
-		"dummy": 0
-	},
-	"resources": {
-		"media":
-		[
-			{
-				"type": "raw",
-				"name": "GUITAR_CHORDS",
-				"file":"raw/gchords"
-			},
-			{
-				"type": "raw",
-				"name": "UKULELE_CHORDS",
-				"file":"raw/uchords"
-			},
-			{
-				"type": "raw",
-				"name": "PIANO_CHORDS",
-				"file":"raw/pchords"
-			},
-			{
-				"type":"png",
-				"name":"GUITAR_BACKGROUND",
-				"file":"images/gbackground.png"
-			},
-			{
-				"type":"png",
-				"name":"UKULELE_BACKGROUND",
-				"file":"images/ubackground.png"
-			},
-			{
-				"type":"png",
-				"name":"PIANO_BACKGROUND",
-				"file":"images/pbackground.png"
-			},
-			{
-				"type": "png",
-				"name": "SYSINFO_MENU_ICON",
-				"file": "images/icon.png",
-				"menuIcon": true
-			}
-		]
-	}
+  "uuid": "63B8755C-3E16-45F6-B463-5E0B68AE561A",
+  "shortName": "Chordinator",
+  "longName": "Chordinator",
+  "companyName": "Computing Eureka",
+  "versionCode": 2,
+  "versionLabel": "2.2",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": [
+      {
+        "type": "raw",
+        "name": "GUITAR_CHORDS",
+        "file": "raw/gchords"
+      },
+      {
+        "type": "raw",
+        "name": "UKULELE_CHORDS",
+        "file": "raw/uchords"
+      },
+      {
+        "type": "raw",
+        "name": "PIANO_CHORDS",
+        "file": "raw/pchords"
+      },
+      {
+        "type": "png",
+        "name": "GUITAR_BACKGROUND",
+        "file": "images/gbackground.png"
+      },
+      {
+        "type": "png",
+        "name": "UKULELE_BACKGROUND",
+        "file": "images/ubackground.png"
+      },
+      {
+        "type": "png",
+        "name": "PIANO_BACKGROUND",
+        "file": "images/pbackground.png"
+      },
+      {
+        "type": "png",
+        "name": "SYSINFO_MENU_ICON",
+        "file": "images/icon.png",
+        "menuIcon": true
+      }
+    ]
+  },
+  "targetPlatforms": [
+    "aplite",
+    "basalt"
+  ],
+  "sdkVersion": "3"
 }
